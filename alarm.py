@@ -1,51 +1,31 @@
-from uk_covid19 import Cov19API
-import requests
-import json
+from flask import Flask, render_template, url_for, request
+from datetime import datetime
+import time
+import sched
+import pyttsx3
+import data_handler
 
-with open("config.json") as f:
-    keys = json.load(f)
+app = Flask(__name__)
 
-def weather_api():
-    city_name = input("Enter a city name: ")
-    api_key = keys['API keys']['weather']
-    url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}".format(city_name, api_key)
-    weather_data = requests.get(url).json()
-    return weather_data
-
-def news_api():
-    api_key = keys['API keys']['news']
-    url = "https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey={}".format(api_key)
-    news_data = requests.get(url).json()
-    return news_data
+def tts_request(announcement="Text to speech example announcement!"):
+    engine = pyttsx3.init()
+    engine.say(announcement)
+    engine.runAndWait()
+    return "Hello text-to-speech example"
 
 
-def covid_api():
-    list_of_countries_filters = []
-    countries = ["England", "Scotland", "Northern Ireland", "Wales"]
-
-    for country in countries:
-        list_of_countries_filters.append(
-            [
-                'areaType=region',
-                'areaName={}'.format("Devon")
-            ]
-        )
-    cases_and_deaths = {
-        "date": "date",
-        "areaName": "areaName",
-        "areaCode": "areaCode",
-        "newCasesByPublishDate": "newCasesByPublishDate",
-        "cumCasesByPublishDate": "cumCasesByPublishDate",
-        "newDeathsByDeathDate": "newDeathsByDeathDate",
-        "cumDeathsByDeathDate": "cumDeathsByDeathDate"
-    }
-
-    apis = {}
-    for i in range(len(list_of_countries_filters)):
-        country=Cov19API(filters=list_of_countries_filters[i], structure=cases_and_deaths).get_json()
-        apis[countries[i]] = country
-
-    print(apis['England'])
+@app.route("/index")
+def form():
+    alarms = data_handler.get_alarms()
+    data_handler.get_user_input()
+    return render_template('alarms.html', alarms=alarms)
 
 
-covid_api()
+@app.route("/")
+def CA3():
+    alarms = data_handler.get_alarms()
+    return render_template('alarms.html', alarms=alarms)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
