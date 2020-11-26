@@ -5,7 +5,7 @@ import requests
 import json
 
 #load keys needed to access APIs
-with open("config.json") as f:
+with open("data/config.json") as f:
     config = json.load(f)
 
 def weather_api():
