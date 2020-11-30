@@ -3,12 +3,37 @@ import json
 from datetime import datetime
 from flask import request
 from typing import List, Dict
+import APIs_fetcher
+import alarm
+
+CITY = 'Exeter'
 
 json_files = {
     "alarm": "data/alarms_data.json",
     "notification": "data/notifications_data.json",
     "user_input": "data/user_input_data.json"
 }
+
+
+def save_new_notifications():
+    """Saves 4 latest BBC news, """
+    clean_json("notification")
+    notifications = []
+    articles = list(APIs_fetcher.news_api()["articles"])
+    # get four latest articles from bbc
+    latest_articles = sorted(articles, key=lambda item: item['publishedAt'], reverse=True)[:4]
+    for article in latest_articles:
+        notification = {}
+        notification["title"] = article["title"]
+        notification["content"] = article["description"]
+        notifications.append(notification)
+    weather_data = APIs_fetcher.weather_api(CITY)
+    weather_title = "Today's weather in {}: {}".format(CITY, weather_data['weather'][0]["main"])
+    weather_content = "Temperature: {}°C, Pressure: {}hPa, Humidity: {}%".format(weather_data['main']['temp'], weather_data['main']['pressure'], weather_data['main']['humidity'])
+    notifications.append({"title": weather_title, "content": weather_content})
+    save_list_to_json(notifications, "notification")
+    return notifications
+
 
 
 def clean_json(data_type: str):
@@ -26,8 +51,6 @@ def save_list_to_json(data: List[dict], data_type: str):
     """saves a list of dictionaries to a json file.
     data_type is a string corresponding to key of the dictionary "data_types",
     where the names of json files for each data type are stored."""
-    # dictionary formatting is checked in the add_alarm function
-    # it can be skipped here since this function should only be called from there
     # if the list is empty, just do not save.
     if not data:
         return
@@ -44,8 +67,10 @@ def add_data_to_json(data_type: str, data: Dict):
 
     # Make sure that the dictionary contains the needed keys.
     if data_type == "alarm" or data_type == "notification":
-        if not list(data.keys()) == ['title', 'content']:
+        if not ('title' in list(data.keys()) and 'content' in list(data.keys())):
             raise ValueError("Error: the dictionary formatting is wrong.")
+        if data_type == "alarm" and not ('date' in list(data.keys()) and 'time' in list(data.keys())):
+            raise ValueError("Error: the alarm does not contain a date.")
     elif data_type == "user_input":
         if not list(data.keys()) == ['date', 'time', 'label', 'news', 'weather']:
             raise ValueError("Error: the dictionary formatting is wrong.")
@@ -53,9 +78,14 @@ def add_data_to_json(data_type: str, data: Dict):
     elif not data_type in json_files.keys():
         raise ValueError("Error: wrong data type '{}' trying to be saved.".format(data_type))
 
+
+
     data_list = get_list_from_json(data_type)
     data_list.append(data)
-    save_list_to_json(data_list, data_type)
+    # if the alarm is added, make sure the list of alarms is sorted by the time they should be triggered
+    if data_type == "alarm":
+        sorted_data_list = sorted(data_list, key=lambda alarm: datetime.strptime(alarm["date"]+alarm["time"], "%Y-%m-%d%H:%M:%S"))
+    save_list_to_json(sorted_data_list, data_type)
 
 
 def get_list_from_json(data_type: str):
@@ -74,35 +104,62 @@ def get_list_from_json(data_type: str):
     return data
 
 
-def save_user_input(date_time, label, is_news, is_weather):
-    """save the data from the form"""
-    #if this is none, do not save because the rest is too
+def process_user_input(date_time, label, is_news, is_weather):
+    """process the data gathered from the form in a way that it can be saved to alarms.json file
+    Check if the inputs are correct,
+    If they are, save the alarm."""
+    print("process user input")
+    # if this is none, do not save because the rest is too
     if date_time is None:
+        alarm.tts_request("No date selected.")
         return
+    # check if the selected time is in the future
     full_date = datetime.strptime(date_time, '%Y-%m-%dT%H:%M')
+    if datetime.now() > full_date:
+        alarm.tts_request("Date selected is in the past.")
+        return
+
     date = str(full_date.date())
     time = str(full_date.time())
-    if is_news == "news":
-        news = True
-    else:
-        news = False
-    if is_weather == "weather":
-        weather = True
-    else:
-        weather = False
 
-    dictionary = {"date": date, "time": time, "label": label, "news": news, "weather": weather}
-    add_data_to_json("user_input", dictionary)
+    alarms = get_list_from_json("alarm")
+    # check if there is any other alarm set at that date
+    datetimes = []
+    if alarms:
+        for a in alarms:
+            previously_saved_date_time = ""
+            previously_saved_date_time += a["date"]
+            previously_saved_date_time += a["time"]
+            datetimes.append(previously_saved_date_time)
+        new_date_time = date + time
+        # if there is another alarm at that time, notify the user
+        if new_date_time in datetimes:
+            alarm.tts_request("Another alarm is already scheduled at that time.")
+            return
+
+    dictionary = {"date": date, "time": time, "title": label,
+                  "content": "alarm set for {} at {}".format(date, time),
+                  "news": True if is_news == "news" else False,
+                  "weather": True if is_weather == "weather" else False}
+    # save in json file
+    add_data_to_json("alarm", dictionary)
+    # add event to the scheduler
+    # alarm.schedule_alarm(dictionary)
 
 
 def get_user_input():
     """get the data from the form"""
     date_time = request.args.get("alarm")
-    print(date_time)
     label = request.args.get("two")
-    print(label)
     is_news = request.args.get("news")
-    print(is_news)
     is_weather = request.args.get("weather")
-    print(is_weather)
-    save_user_input(date_time, label, is_news, is_weather)
+    if not date_time is None:
+        print("get user input")
+        try:
+            print("Date selected: " + date_time)
+            datetime.strptime(date_time, '%Y-%m-%dT%H:%M')
+            process_user_input(date_time, label, is_news, is_weather)
+
+        except ValueError:
+            print("Wrong date input!")
+            return

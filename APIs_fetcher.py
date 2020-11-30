@@ -8,12 +8,11 @@ import json
 with open("data/config.json") as f:
     config = json.load(f)
 
-def weather_api():
+def weather_api(city_name):
     """function fetching data from the open weather API.
     It returns weather data for a given city in form of json"""
-    city_name = input("Enter a city name: ")
     api_key = config['API keys']['weather']
-    url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}".format(city_name, api_key)
+    url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}&units=metric".format(city_name, api_key)
     weather_data = requests.get(url).json()
     return weather_data
 
