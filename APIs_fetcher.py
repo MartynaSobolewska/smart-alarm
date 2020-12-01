@@ -3,6 +3,7 @@
 from uk_covid19 import Cov19API
 import requests
 import json
+from datetime import datetime, timedelta
 
 #load keys needed to access APIs
 with open("data/config.json") as f:
@@ -23,7 +24,7 @@ def news_api():
     return news_data
 
 
-def covid_api():
+def covid_api(city: str):
     """A function fetching data from Covid-19 API
     It returns a dictionary with countries in GB as keys
     and data about covid as values.
@@ -39,6 +40,7 @@ def covid_api():
     is the cumulative number of cases in England until yesterday
 
     """
+    # create a filter for each counry in the UK
     list_of_countries_filters = []
     countries = ["England", "Scotland", "Northern Ireland", "Wales"]
 
@@ -46,13 +48,17 @@ def covid_api():
         list_of_countries_filters.append(
             [
                 'areaType=nation',
-                'areaName={}'.format(country)
+                'areaName={}'.format(country),
+                'date={}'.format(datetime.strftime(datetime.now() - timedelta(1), "%Y-%m-%d"))
             ]
         )
+    # create a filter for the city from config.json file
+    city_filter = [
+        'areaName={}'.format(city),
+        'date={}'.format(datetime.strftime(datetime.now() - timedelta(1), "%Y-%m-%d"))
+    ]
     cases_and_deaths = {
         "date": "date",
-        "areaName": "areaName",
-        "areaCode": "areaCode",
         "newCasesByPublishDate": "newCasesByPublishDate",
         "cumCasesByPublishDate": "cumCasesByPublishDate",
         "newDeathsByDeathDate": "newDeathsByDeathDate",
@@ -63,5 +69,7 @@ def covid_api():
     for i in range(len(list_of_countries_filters)):
         country=Cov19API(filters=list_of_countries_filters[i], structure=cases_and_deaths).get_json()
         apis[countries[i]] = country
+
+    apis[city] = Cov19API(filters=city_filter, structure=cases_and_deaths).get_json()
 
     return apis
