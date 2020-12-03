@@ -5,14 +5,17 @@ from flask import request, Markup
 from typing import List, Dict
 import APIs_fetcher
 import alarm
+import logging
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 def get_list_from_json(data_type: str):
     """returns a list of dictionaries that contain
     the alarm data from alarms_data.json"""
     # if wrong data type provided, raise an error
     if not data_type in json_files.keys():
-        raise ValueError("Error: wrong data type '{}' trying to be saved.".format(data_type))
+        logger.error("Error: wrong data type '{}' trying to be saved.".format(data_type))
     with open(json_files[data_type], "r") as data_file:
         try:
             data = json.load(data_file)
@@ -41,11 +44,12 @@ def save_new_notifications():
     News articles and COVID-19 data are temporarily stored in json files
     and updated when needed."""
 
+    logger.info("Refreshing the notifications")
+
     clean_json("notification")
     notifications = []
 
     # get pre-fetched articles from the json file
-    print("Article published more than 12h ago!")
     articles = list(APIs_fetcher.news_api()["articles"])
     # sort articles from the most to least recent
     latest_articles = sorted(articles, key=lambda item: item['publishedAt'], reverse=True)[:3]
@@ -72,9 +76,11 @@ def save_new_notifications():
     if len(covid_data) == 0 or \
             not covid_data["England"]["data"][0]["date"] == str(
                 datetime.strftime(datetime.now() - timedelta(1), "%Y-%m-%d")):
-        print("get covid from API")
+        logger.info("Covid data not from yesterday, fetching new data from API.")
         covid_data = APIs_fetcher.covid_api(CITY)
         save_list_to_json(covid_data, "covid_temp")
+
+    # formatting notification about covid
     covid_content = "{}: {}, ".format(CITY, covid_data[CITY]["data"][0]["newCasesByPublishDate"]) + \
                     "{}: {}, ".format('England', covid_data["England"]["data"][0]["newCasesByPublishDate"]) + \
                     "{}: {}, ".format('Scotland', covid_data["Scotland"]["data"][0]["newCasesByPublishDate"]) + \
@@ -84,7 +90,6 @@ def save_new_notifications():
 
     notifications.append({"title": covid_title, "content": covid_content})
     save_list_to_json(notifications, "notification")
-
     return notifications
 
 
@@ -93,9 +98,9 @@ def clean_json(data_type: str):
     data_type is a string corresponding to key of the dictionary "data_types",
     where the names of json files for each data type are stored."""
     # check if correct data type
-    print(data_type)
     if not data_type in json_files.keys():
-        raise ValueError("Incorrect data type detected while tying to clear the json file.")
+        logger.error("Incorrect data type detected while tying to clear the json file.")
+        return
     with open(json_files[data_type], "w") as app_data_file:
         json.dump([], app_data_file)
 
@@ -104,11 +109,13 @@ def delete_from_json(data_type: str, data_object: dict):
     """looks for a corresponding object in the list fetched from json and, if found,
      deletes it and saves an updated list"""
     list_of_obj = get_list_from_json(data_type)
+    logger.info("Attempting to delete a {} object.".format(data_type))
     try:
         list_of_obj.remove(data_object)
+        logger.info("Removing object of type {} with title {}".format(data_type, data_object["title"]))
         save_list_to_json(list_of_obj, data_type)
     except ValueError:
-        print("object {} not found".format(data_object))
+        logger.warning("object of type {} and title {} not found, hence unable to delete it".format(data_type, data_object["title"]))
 
 
 def save_list_to_json(data: List[dict], data_type: str):
@@ -133,15 +140,16 @@ def add_data_to_json(data_type: str, data: Dict):
     # Make sure that the dictionary contains the needed keys.
     if data_type == "alarm" or data_type == "notification":
         if not ('title' in list(data.keys()) and 'content' in list(data.keys())):
-            raise ValueError("Error: the dictionary formatting is wrong.")
+            logger.error("The dictionary formatting found wrong while trying to add an object to {}.".format(json_files[data_type]))
+            return
         if data_type == "alarm" and not ('date' in list(data.keys()) and 'time' in list(data.keys())):
-            raise ValueError("Error: the alarm does not contain a date.")
+            logger.error("The alarm does not contain a date.")
     elif data_type == "user_input":
         if not list(data.keys()) == ['date', 'time', 'label', 'news', 'weather']:
-            raise ValueError("Error: the dictionary formatting is wrong.")
+            logger.error("The dictionary formatting found wrong while trying to add an object to {}.".format(json_files[data_type]))
     # Make sure that the provided data type is correct, else raise an error
     elif not data_type in json_files.keys():
-        raise ValueError("Error: wrong data type '{}' trying to be saved.".format(data_type))
+        logger.error("Wrong data type '{}' trying to be saved.".format(data_type))
 
     data_list = get_list_from_json(data_type)
     data_list.append(data)
@@ -149,6 +157,7 @@ def add_data_to_json(data_type: str, data: Dict):
     if data_type == "alarm":
         sorted_data_list = sorted(data_list, key=lambda alarm: datetime.strptime(alarm["date"] + alarm["time"],
                                                                                  "%Y-%m-%d%H:%M:%S"))
+    else: sorted_data_list = data_list
     save_list_to_json(sorted_data_list, data_type)
 
 
@@ -156,14 +165,16 @@ def process_user_input(date_time, label, is_news, is_weather):
     """process the data gathered from the form in a way that it can be saved to alarms.json file
     Check if the inputs are correct,
     If they are, save the alarm."""
-    print("process user input")
+    logger.info("Processing user input...")
     # if this is none, do not save because the rest is too
     if date_time is None:
+        logger.warning("No date selected in user input.")
         alarm.tts_request("No date selected.")
         return
     # check if the selected time is in the future
     full_date = datetime.strptime(date_time, '%Y-%m-%dT%H:%M')
     if datetime.now() > full_date:
+        logger.warning("Date selected by user is in the past.")
         alarm.tts_request("Date selected is in the past.")
         return
 
@@ -182,9 +193,10 @@ def process_user_input(date_time, label, is_news, is_weather):
         new_date_time = date + time
         # if there is another alarm at that time, notify the user
         if new_date_time in datetimes:
+            logger.warning("User tried to set two alarms at the same time.")
             alarm.tts_request("Another alarm is already scheduled at that time.")
             return
-
+    # alarm data formatting
     dictionary = {"date": date, "time": time, "title": label,
                   "content": "alarm set for {} at {}".format(date, time),
                   "news": True if is_news == "news" else False,
@@ -192,6 +204,7 @@ def process_user_input(date_time, label, is_news, is_weather):
     # save in json file
     add_data_to_json("alarm", dictionary)
     # alarms have to all be scheduled in a correct order so other alarms need rescheduling
+    logger.info("New alarm added, need for rescheduling.")
     alarm.schedule_all_alarms()
 
 
@@ -202,18 +215,18 @@ def get_user_input():
     is_news = request.args.get("news")
     is_weather = request.args.get("weather")
     if not date_time is None:
-        print("get user input")
+        logger.info("User input data.")
         try:
-            print("Date selected: " + date_time)
             datetime.strptime(date_time, '%Y-%m-%dT%H:%M')
             process_user_input(date_time, label, is_news, is_weather)
 
         except ValueError:
-            print("Wrong date input!")
+            logger.warning("Wrong date input from the user!")
             return
 
 
 def get_alarm_content(alarm: dict):
+    """Based on what user wanted to be informed about, create a message to be read."""
     content = ""
     # get 3 most recent news articles from API (those from notifications are fetched every 12h)
     news = sorted(APIs_fetcher.news_api()["articles"], key=lambda item: item['publishedAt'], reverse=True)[:3]
@@ -230,11 +243,12 @@ def get_alarm_content(alarm: dict):
 
 
 def trigger_alarm(alarm_dict: dict):
-    print("Trigger alarm")
+    """At scheduled time, fetch up-to-date data to inform user and read it out loud."""
+    logger.info("Alarm with title '{}' triggered".format(alarm_dict["title"]))
     # get up to date data based on user preferences
     alarm_dict["content"] = get_alarm_content(alarm_dict)
-    print("alarm title: " + alarm_dict["title"])
-    print("alarm content: " + alarm_dict["content"])
+    logger.info("Alarm read: {}".format(alarm_dict["content"]))
+    # read alarm title and content
     alarm.tts_request(alarm_dict["title"])
     alarm.tts_request(alarm_dict["content"])
     # delete the alarm since it was already triggered

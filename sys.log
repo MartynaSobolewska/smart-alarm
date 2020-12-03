@@ -1,0 +1,22 @@
+INFO json_handler, 2020-12-03 12:32:05,356: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 12:32:05,626: Successful connection with news API.
+INFO werkzeug, 2020-12-03 12:32:05,684:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO werkzeug, 2020-12-03 12:32:09,044: 127.0.0.1 - - [03/Dec/2020 12:32:09] "[37mGET / HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 12:32:22,071: User input data.
+INFO json_handler, 2020-12-03 12:32:22,073: Processing user input...
+INFO json_handler, 2020-12-03 12:32:22,076: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 12:32:22,086: 127.0.0.1 - - [03/Dec/2020 12:32:22] "[37mGET /index?alarm=2020-12-03T12%3A33&two=in+a+sec&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 12:32:28,999: Attempting to delete a notification object.
+INFO json_handler, 2020-12-03 12:32:28,999: Removing object of type notification with title Coronavirus: Hackers targeted Covid vaccine supply 'cold chain'
+INFO werkzeug, 2020-12-03 12:32:29,005: 127.0.0.1 - - [03/Dec/2020 12:32:29] "[37mGET /index?notif=Coronavirus%3A+Hackers+targeted+Covid+vaccine+supply+%27cold+chain%27 HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 12:33:00,000: Alarm with title 'in a sec' triggered
+INFO APIs_fetcher, 2020-12-03 12:33:00,237: Successful connection with news API.
+INFO json_handler, 2020-12-03 12:33:00,238: Alarm read: Brexit: UK-EU trade talks down to the wire: The UK and EU teams are under pressure to finalise an agreement, as talks continue in London.;
+ Coronavirus: Hackers targeted Covid vaccine supply 'cold chain': IBM says organisations involved in storing and moving coronavirus vaccines at chilled temperatures.;
+ Ethiopian Jews flown to Israel in latest operation: Israel's PM speaks of tears in his eyes as he welcomes the group, the first of an expected wave.;
+ COVID-19 new cases yesterday: Exeter: 16, England: 13323, Scotland: 951, Northern Ireland: 416, Wales: 1480
+INFO json_handler, 2020-12-03 12:33:29,074: Attempting to delete a alarm object.
+INFO json_handler, 2020-12-03 12:33:29,074: Removing object of type alarm with title in a sec
+INFO werkzeug, 2020-12-03 12:33:29,078: 127.0.0.1 - - [03/Dec/2020 12:33:29] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 12:33:41,947: Attempting to delete a alarm object.
+WARNING json_handler, 2020-12-03 12:33:41,947: object of type alarm and title in a sec not found, hence unable to delete it
