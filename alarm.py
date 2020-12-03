@@ -15,7 +15,8 @@ s = None
 time_last_refresh = datetime.now()
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='sys.log',
-                        format='%(levelname)s %(name)s, %(asctime)s: %(message)s')
+                    format='%(levelname)s %(name)s, %(asctime)s: %(message)s')
+
 
 def schedule_all_alarms():
     """get all alarms from the alarms.json file and schedule them
@@ -79,35 +80,38 @@ def get_delay(date: str, time_str: str):
     except ValueError:
         logger.error("Wrong date formatting trying to be converted in get_delay function.")
 
+def delete_an_object():
+    logger.info("User pressed x button to delete an alarm/notification.")
+    delete_title = request.url.split("?")[1]
+    # find out if we delete alarm or notification
+    delete_type = delete_title.split("=")[0]
+    if delete_type == "notif":
+        delete_type = "notification"
+    elif delete_type == "alarm_item":
+        delete_type = "alarm"
+    else:
+        logger.warning("Unable to recognize what type of data wants to delete (wrong URL formatting).")
+        # go to main page
+        form()
+    # get rid of non-alphanumeric chars and problematic chars
+    delete_title = delete_title.replace("%3A", "")
+    delete_title = delete_title.replace("%27", "")
+    delete_title_only_with_alphabet = ''.join([i for i in delete_title.split("=")[1] if i.isalpha()])
+    list_of_obj = json_handler.get_list_from_json(delete_type)
+    for o in list_of_obj:
+        o_title_only_with_alphabet = ''.join([i for i in o["title"] if i.isalpha()])
+        if o_title_only_with_alphabet == delete_title_only_with_alphabet:
+            logger.info("Successfully found an object to delete.")
+            json_handler.delete_from_json(delete_type, o)
+            break
 
 @app.route('/index')
 def index():
+    """renders the html form and listens for user trying to delete an object."""
     json_handler.get_user_input()
     # deleting alarm/notification
     if "alarm_item" in str(request.url) or "notif" in str(request.url):
-        logger.info("User pressed x button to delete an alarm/notification.")
-        delete_title = request.url.split("?")[1]
-        # find out if we delete alarm or notification
-        delete_type = delete_title.split("=")[0]
-        if delete_type == "notif":
-            delete_type = "notification"
-        elif delete_type == "alarm_item":
-            delete_type = "alarm"
-        else:
-            logger.warning("Unable to recognize what type of data wants to delete (wrong URL formatting).")
-            # go to main page
-            form()
-        # get rid of non-alphanumeric chars and problematic chars
-        delete_title = delete_title.replace("%3A", "")
-        delete_title = delete_title.replace("%27", "")
-        delete_title_only_with_alphabet = ''.join([i for i in delete_title.split("=")[1] if i.isalpha()])
-        list_of_obj = json_handler.get_list_from_json(delete_type)
-        for o in list_of_obj:
-            o_title_only_with_alphabet = ''.join([i for i in o["title"] if i.isalpha()])
-            if o_title_only_with_alphabet == delete_title_only_with_alphabet:
-                logger.info("Successfully found an object to delete.")
-                json_handler.delete_from_json(delete_type, o)
-                break
+        delete_an_object()
     return fill_out_the_form()
 
 
@@ -118,7 +122,6 @@ def run_sched():
 @app.route("/")
 def form():
     return fill_out_the_form()
-
 
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 """This is a module containing functions for saving and retrieving data from json data files"""
 import json
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from flask import request, Markup
 from typing import List, Dict
 import APIs_fetcher
@@ -176,6 +177,10 @@ def process_user_input(date_time, label, is_news, is_weather):
     if datetime.now() > full_date:
         logger.warning("Date selected by user is in the past.")
         alarm.tts_request("Date selected is in the past.")
+        return
+    if full_date > datetime.now() + relativedelta(months=6):
+        alarm.tts_request("Date selected is set in too distant future")
+        logger.warning("Date selected by user is set in too distant future")
         return
 
     date = str(full_date.date())

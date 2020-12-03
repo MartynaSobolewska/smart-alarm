@@ -20,3 +20,221 @@ INFO json_handler, 2020-12-03 12:33:29,074: Removing object of type alarm with t
 INFO werkzeug, 2020-12-03 12:33:29,078: 127.0.0.1 - - [03/Dec/2020 12:33:29] "[37mGET /index HTTP/1.1[0m" 200 -
 INFO json_handler, 2020-12-03 12:33:41,947: Attempting to delete a alarm object.
 WARNING json_handler, 2020-12-03 12:33:41,947: object of type alarm and title in a sec not found, hence unable to delete it
+INFO werkzeug, 2020-12-03 12:34:29,150: 127.0.0.1 - - [03/Dec/2020 12:34:29] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:35:29,213: 127.0.0.1 - - [03/Dec/2020 12:35:29] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 12:38:15,277: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 12:38:15,647: Successful connection with news API.
+INFO werkzeug, 2020-12-03 12:38:15,706:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO werkzeug, 2020-12-03 12:38:22,697: 127.0.0.1 - - [03/Dec/2020 12:38:22] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 12:38:25,351: Attempting to delete a notification object.
+INFO json_handler, 2020-12-03 12:38:25,352: Removing object of type notification with title Coronavirus: Hackers targeted Covid vaccine supply 'cold chain'
+INFO werkzeug, 2020-12-03 12:38:25,355: 127.0.0.1 - - [03/Dec/2020 12:38:25] "[37mGET /index?notif=Coronavirus%3A+Hackers+targeted+Covid+vaccine+supply+%27cold+chain%27 HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 12:39:01,207: User input data.
+INFO json_handler, 2020-12-03 12:39:01,209: Processing user input...
+WARNING json_handler, 2020-12-03 12:39:01,209: Date selected by user is in the past.
+INFO werkzeug, 2020-12-03 12:39:04,394: 127.0.0.1 - - [03/Dec/2020 12:39:04] "[37mGET /index?alarm=2020-10-16T12%3A39&two=5qgh&news=news HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:40:04,459: 127.0.0.1 - - [03/Dec/2020 12:40:04] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:41:04,526: 127.0.0.1 - - [03/Dec/2020 12:41:04] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:42:04,591: 127.0.0.1 - - [03/Dec/2020 12:42:04] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:43:04,654: 127.0.0.1 - - [03/Dec/2020 12:43:04] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:44:04,719: 127.0.0.1 - - [03/Dec/2020 12:44:04] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:45:04,775: 127.0.0.1 - - [03/Dec/2020 12:45:04] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:46:04,836: 127.0.0.1 - - [03/Dec/2020 12:46:04] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:47:04,893: 127.0.0.1 - - [03/Dec/2020 12:47:04] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:48:04,978: 127.0.0.1 - - [03/Dec/2020 12:48:04] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:49:05,043: 127.0.0.1 - - [03/Dec/2020 12:49:05] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:50:05,098: 127.0.0.1 - - [03/Dec/2020 12:50:05] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:51:05,156: 127.0.0.1 - - [03/Dec/2020 12:51:05] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 12:51:39,800: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 12:51:39,976: Successful connection with news API.
+INFO werkzeug, 2020-12-03 12:51:40,027:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO json_handler, 2020-12-03 12:51:55,736: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 12:51:55,903: Successful connection with news API.
+INFO werkzeug, 2020-12-03 12:51:55,947:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO werkzeug, 2020-12-03 12:52:05,216: 127.0.0.1 - - [03/Dec/2020 12:52:05] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:53:05,284: 127.0.0.1 - - [03/Dec/2020 12:53:05] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:54:05,352: 127.0.0.1 - - [03/Dec/2020 12:54:05] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:55:05,406: 127.0.0.1 - - [03/Dec/2020 12:55:05] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 12:56:05,465: 127.0.0.1 - - [03/Dec/2020 12:56:05] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 13:04:02,306: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 13:04:02,660: Successful connection with news API.
+INFO werkzeug, 2020-12-03 13:04:02,744:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO json_handler, 2020-12-03 13:22:17,441: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 13:22:17,773: Successful connection with news API.
+INFO werkzeug, 2020-12-03 13:22:17,851:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO werkzeug, 2020-12-03 13:22:32,700: 127.0.0.1 - - [03/Dec/2020 13:22:32] "[37mGET / HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:22:35,309: 127.0.0.1 - - [03/Dec/2020 13:22:35] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO json_handler, 2020-12-03 13:38:08,702: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 13:38:08,987: Successful connection with news API.
+INFO werkzeug, 2020-12-03 13:38:09,066:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO json_handler, 2020-12-03 13:40:43,417: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 13:40:43,609: Successful connection with news API.
+INFO werkzeug, 2020-12-03 13:40:43,691:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO json_handler, 2020-12-03 13:43:15,554: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 13:43:15,887: Successful connection with news API.
+INFO json_handler, 2020-12-03 13:43:58,692: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 13:43:59,000: Successful connection with news API.
+INFO werkzeug, 2020-12-03 13:43:59,080:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO json_handler, 2020-12-03 13:45:49,409: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 13:45:49,791: Successful connection with news API.
+INFO werkzeug, 2020-12-03 13:45:49,879:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING __main__, 2020-12-03 13:45:54,843: User tried to set the alarm for a future that is too distant
+INFO werkzeug, 2020-12-03 13:46:02,579: 127.0.0.1 - - [03/Dec/2020 13:46:02] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 13:46:08,100: Attempting to delete a alarm object.
+INFO json_handler, 2020-12-03 13:46:08,100: Removing object of type alarm with title xyz
+INFO werkzeug, 2020-12-03 13:46:08,104: 127.0.0.1 - - [03/Dec/2020 13:46:08] "[37mGET /index?alarm_item=xyz HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:46:09,899: 127.0.0.1 - - [03/Dec/2020 13:46:09] "[37mGET /index?alarm_item=xyz HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:46:18,765: 127.0.0.1 - - [03/Dec/2020 13:46:18] "[37mGET /index?alarm_item=xyz HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:46:21,554: 127.0.0.1 - - [03/Dec/2020 13:46:21] "[37mGET / HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 13:46:57,006: User input data.
+INFO json_handler, 2020-12-03 13:46:57,008: Processing user input...
+INFO json_handler, 2020-12-03 13:46:57,011: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 13:46:57,026: 127.0.0.1 - - [03/Dec/2020 13:46:57] "[37mGET /index?alarm=2024-06-06T13%3A46&two=wy&news=news HTTP/1.1[0m" 200 -
+WARNING alarm, 2020-12-03 13:47:00,646: User tried to set the alarm for a future that is too distant
+INFO werkzeug, 2020-12-03 13:47:57,182: 127.0.0.1 - - [03/Dec/2020 13:47:57] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 13:48:16,998: User input data.
+INFO json_handler, 2020-12-03 13:48:16,998: Processing user input...
+INFO json_handler, 2020-12-03 13:48:17,000: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 13:48:17,017: 127.0.0.1 - - [03/Dec/2020 13:48:17] "[37mGET /index?alarm=2022-06-16T13%3A49&two=5qgh&news=news HTTP/1.1[0m" 200 -
+WARNING alarm, 2020-12-03 13:48:21,550: User tried to set the alarm for a future that is too distant
+INFO json_handler, 2020-12-03 13:49:09,443: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 13:49:09,776: Successful connection with news API.
+INFO werkzeug, 2020-12-03 13:49:09,889:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO werkzeug, 2020-12-03 13:49:17,202: 127.0.0.1 - - [03/Dec/2020 13:49:17] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:50:17,995: 127.0.0.1 - - [03/Dec/2020 13:50:17] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:51:18,994: 127.0.0.1 - - [03/Dec/2020 13:51:18] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:52:19,967: 127.0.0.1 - - [03/Dec/2020 13:52:19] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:53:20,979: 127.0.0.1 - - [03/Dec/2020 13:53:20] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:54:21,983: 127.0.0.1 - - [03/Dec/2020 13:54:21] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:55:22,956: 127.0.0.1 - - [03/Dec/2020 13:55:22] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:56:24,048: 127.0.0.1 - - [03/Dec/2020 13:56:24] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:57:25,107: 127.0.0.1 - - [03/Dec/2020 13:57:25] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 13:58:25,998: 127.0.0.1 - - [03/Dec/2020 13:58:25] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 13:58:41,323: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 13:58:41,675: Successful connection with news API.
+INFO werkzeug, 2020-12-03 13:58:41,758:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO werkzeug, 2020-12-03 13:59:21,134: 127.0.0.1 - - [03/Dec/2020 13:59:21] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 13:59:29,148: User input data.
+INFO json_handler, 2020-12-03 13:59:29,150: Processing user input...
+INFO json_handler, 2020-12-03 13:59:29,154: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 13:59:29,171: 127.0.0.1 - - [03/Dec/2020 13:59:29] "[37mGET /index?alarm=2021-02-18T13%3A59&two=wdw&news=news&weather=weather HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:00:30,597: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 14:00:30,827: Successful connection with news API.
+INFO werkzeug, 2020-12-03 14:00:30,901:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO werkzeug, 2020-12-03 14:00:31,137: 127.0.0.1 - - [03/Dec/2020 14:00:31] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 14:00:34,445: 127.0.0.1 - - [03/Dec/2020 14:00:34] "[37mGET / HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:00:46,436: User input data.
+INFO json_handler, 2020-12-03 14:00:46,442: Processing user input...
+WARNING json_handler, 2020-12-03 14:00:52,051: Date selected by user is set in too distant future
+INFO werkzeug, 2020-12-03 14:00:52,057: 127.0.0.1 - - [03/Dec/2020 14:00:52] "[37mGET /index?alarm=2021-01-22T14%3A01&two=wy&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:01:03,800: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 14:01:04,035: Successful connection with news API.
+INFO werkzeug, 2020-12-03 14:01:04,125:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO json_handler, 2020-12-03 14:01:13,072: User input data.
+INFO json_handler, 2020-12-03 14:01:13,078: Processing user input...
+INFO json_handler, 2020-12-03 14:01:13,083: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:01:13,117: 127.0.0.1 - - [03/Dec/2020 14:01:13] "[37mGET /index?alarm=2021-01-07T14%3A01&two=5qgh&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:01:27,142: User input data.
+INFO json_handler, 2020-12-03 14:01:27,142: Processing user input...
+INFO json_handler, 2020-12-03 14:01:27,145: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:01:27,160: 127.0.0.1 - - [03/Dec/2020 14:01:27] "[37mGET /index?alarm=2020-12-31T14%3A01&two=wy&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:01:49,892: User input data.
+INFO json_handler, 2020-12-03 14:01:49,893: Processing user input...
+INFO json_handler, 2020-12-03 14:01:49,896: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:01:49,921: 127.0.0.1 - - [03/Dec/2020 14:01:49] "[37mGET /index?alarm=2021-02-01T14%3A01&two=wdw&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:02:04,546: User input data.
+INFO json_handler, 2020-12-03 14:02:04,547: Processing user input...
+INFO json_handler, 2020-12-03 14:02:04,550: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:02:04,562: 127.0.0.1 - - [03/Dec/2020 14:02:04] "[37mGET /index?alarm=2021-02-03T14%3A01&two=wdw&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:02:17,508: User input data.
+INFO json_handler, 2020-12-03 14:02:17,509: Processing user input...
+WARNING json_handler, 2020-12-03 14:02:22,748: Date selected by user is set in too distant future
+INFO werkzeug, 2020-12-03 14:02:22,753: 127.0.0.1 - - [03/Dec/2020 14:02:22] "[37mGET /index?alarm=2021-04-03T14%3A02&two=wdw&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:02:32,782: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 14:02:33,093: Successful connection with news API.
+INFO werkzeug, 2020-12-03 14:02:33,167:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO json_handler, 2020-12-03 14:02:36,132: User input data.
+INFO json_handler, 2020-12-03 14:02:36,132: Processing user input...
+INFO json_handler, 2020-12-03 14:02:36,136: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:02:36,163: 127.0.0.1 - - [03/Dec/2020 14:02:36] "[37mGET /index?alarm=2021-04-03T14%3A02&two=wdw&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:02:47,934: User input data.
+INFO json_handler, 2020-12-03 14:02:47,935: Processing user input...
+INFO json_handler, 2020-12-03 14:02:47,939: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:02:47,953: 127.0.0.1 - - [03/Dec/2020 14:02:47] "[37mGET /index?alarm=2021-04-04T14%3A02&two=wdw&weather=weather HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:03:06,874: User input data.
+INFO json_handler, 2020-12-03 14:03:06,874: Processing user input...
+INFO json_handler, 2020-12-03 14:03:06,879: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:03:06,896: 127.0.0.1 - - [03/Dec/2020 14:03:06] "[37mGET /index?alarm=2021-05-03T14%3A02&two=5&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:03:21,597: User input data.
+INFO json_handler, 2020-12-03 14:03:21,598: Processing user input...
+WARNING json_handler, 2020-12-03 14:03:26,690: Date selected by user is set in too distant future
+INFO werkzeug, 2020-12-03 14:03:26,696: 127.0.0.1 - - [03/Dec/2020 14:03:26] "[37mGET /index?alarm=2021-06-04T15%3A03&two=6&news=news&weather=weather HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:03:35,725: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 14:03:35,948: Successful connection with news API.
+INFO werkzeug, 2020-12-03 14:03:36,031:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO json_handler, 2020-12-03 14:03:39,216: User input data.
+INFO json_handler, 2020-12-03 14:03:39,217: Processing user input...
+INFO json_handler, 2020-12-03 14:03:39,221: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:03:39,256: 127.0.0.1 - - [03/Dec/2020 14:03:39] "[37mGET /index?alarm=2021-06-04T15%3A03&two=6&news=news&weather=weather HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:03:54,736: User input data.
+INFO json_handler, 2020-12-03 14:03:54,737: Processing user input...
+INFO json_handler, 2020-12-03 14:03:54,740: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:03:54,754: 127.0.0.1 - - [03/Dec/2020 14:03:54] "[37mGET /index?alarm=2021-07-03T14%3A03&two=7&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:04:08,743: User input data.
+INFO json_handler, 2020-12-03 14:04:08,744: Processing user input...
+INFO json_handler, 2020-12-03 14:04:08,748: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:04:08,766: 127.0.0.1 - - [03/Dec/2020 14:04:08] "[37mGET /index?alarm=2021-08-03T14%3A03&two=8 HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:04:27,253: User input data.
+INFO json_handler, 2020-12-03 14:04:27,253: Processing user input...
+INFO json_handler, 2020-12-03 14:04:27,258: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:04:27,274: 127.0.0.1 - - [03/Dec/2020 14:04:27] "[37mGET /index?alarm=2021-09-03T14%3A04&two=9&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:04:45,775: User input data.
+INFO json_handler, 2020-12-03 14:04:45,775: Processing user input...
+WARNING json_handler, 2020-12-03 14:04:51,065: Date selected by user is set in too distant future
+INFO werkzeug, 2020-12-03 14:04:51,071: 127.0.0.1 - - [03/Dec/2020 14:04:51] "[37mGET /index?alarm=2021-12-04T14%3A04&two=5qgh&weather=weather HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:05:15,368: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 14:05:15,591: Successful connection with news API.
+INFO werkzeug, 2020-12-03 14:05:15,667:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO werkzeug, 2020-12-03 14:05:28,688: 127.0.0.1 - - [03/Dec/2020 14:05:28] "[37mGET / HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:05:39,728: User input data.
+INFO json_handler, 2020-12-03 14:05:39,731: Processing user input...
+INFO json_handler, 2020-12-03 14:05:39,736: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:05:39,755: 127.0.0.1 - - [03/Dec/2020 14:05:39] "[37mGET /index?alarm=2021-12-03T14%3A05&two=year&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:06:13,086: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 14:06:13,282: Successful connection with news API.
+INFO werkzeug, 2020-12-03 14:06:13,380:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO json_handler, 2020-12-03 14:06:15,827: User input data.
+INFO json_handler, 2020-12-03 14:06:15,830: Processing user input...
+INFO json_handler, 2020-12-03 14:06:15,834: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:06:15,872: 127.0.0.1 - - [03/Dec/2020 14:06:15] "[37mGET /index?alarm=2022-12-03T14%3A05&two=2+years HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:06:53,689: User input data.
+INFO json_handler, 2020-12-03 14:06:53,689: Processing user input...
+WARNING json_handler, 2020-12-03 14:06:58,699: Date selected by user is set in too distant future
+INFO werkzeug, 2020-12-03 14:06:58,699: 127.0.0.1 - - [03/Dec/2020 14:06:58] "[37mGET /index?alarm=2025-06-03T14%3A06&two=qf3e&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:07:09,211: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 14:07:09,423: Successful connection with news API.
+INFO werkzeug, 2020-12-03 14:07:09,510:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO json_handler, 2020-12-03 14:07:25,260: User input data.
+INFO json_handler, 2020-12-03 14:07:25,262: Processing user input...
+INFO json_handler, 2020-12-03 14:07:25,267: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:07:25,306: 127.0.0.1 - - [03/Dec/2020 14:07:25] "[37mGET /index?alarm=2027-02-03T14%3A08&two=2027&news=news HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 14:08:25,470: 127.0.0.1 - - [03/Dec/2020 14:08:25] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 14:09:25,995: 127.0.0.1 - - [03/Dec/2020 14:09:25] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 14:10:27,102: 127.0.0.1 - - [03/Dec/2020 14:10:27] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:13:50,891: Refreshing the notifications
+INFO APIs_fetcher, 2020-12-03 14:13:51,281: Successful connection with news API.
+INFO werkzeug, 2020-12-03 14:13:51,360:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO werkzeug, 2020-12-03 14:13:54,957: 127.0.0.1 - - [03/Dec/2020 14:13:54] "[37mGET /index HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:14:06,034: User input data.
+INFO json_handler, 2020-12-03 14:14:06,036: Processing user input...
+INFO json_handler, 2020-12-03 14:14:06,039: New alarm added, need for rescheduling.
+INFO werkzeug, 2020-12-03 14:14:06,056: 127.0.0.1 - - [03/Dec/2020 14:14:06] "[37mGET /index?alarm=2021-04-22T14%3A13&two=wy&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:14:44,392: User input data.
+INFO json_handler, 2020-12-03 14:14:44,392: Processing user input...
+WARNING json_handler, 2020-12-03 14:14:49,716: Date selected by user is set in too distant future
+INFO werkzeug, 2020-12-03 14:14:49,718: 127.0.0.1 - - [03/Dec/2020 14:14:49] "[37mGET /index?alarm=2021-08-03T14%3A14&two=5qgh&news=news HTTP/1.1[0m" 200 -
+INFO json_handler, 2020-12-03 14:14:52,985: User input data.
+INFO json_handler, 2020-12-03 14:14:52,986: Processing user input...
+WARNING json_handler, 2020-12-03 14:14:56,466: Date selected by user is set in too distant future
+INFO werkzeug, 2020-12-03 14:14:56,475: 127.0.0.1 - - [03/Dec/2020 14:14:56] "[37mGET /index?alarm=2021-08-03T14%3A14&two=5qgh&news=news HTTP/1.1[0m" 200 -
+INFO werkzeug, 2020-12-03 14:15:56,745: 127.0.0.1 - - [03/Dec/2020 14:15:56] "[37mGET /index HTTP/1.1[0m" 200 -
