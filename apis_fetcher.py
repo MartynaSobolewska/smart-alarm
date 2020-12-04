@@ -1,20 +1,20 @@
-"""Module containing methods to fetch data from APIs"""
-
-from uk_covid19 import Cov19API
-import requests
+"""This module contains methods to fetch data from APIs"""
 import json
 from datetime import datetime, timedelta
 import logging
+from uk_covid19 import Cov19API
+import requests
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
-#load keys needed to access APIs
+# load keys needed to access APIs
 with open("data/config.json") as f:
     config = json.load(f)
 
+
 def weather_api(city_name):
-    """function fetching data from the open weather API.
+    """Fetches the data from the open weather API.
     It returns weather data for a given city in form of json formatted as on the example:
         {
           'coord': {
@@ -61,12 +61,15 @@ def weather_api(city_name):
         }
     """
     api_key = config['API keys']['weather']
-    url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}&units=metric".format(city_name, api_key)
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city_name}" \
+          f"&appid={api_key}&units=metric"
     weather_data = requests.get(url).json()
     return weather_data
 
+
 def news_api():
-    """Fetches top BBC articles from the news API and returns it in a form of json file formatted as the example:
+    """Fetches top BBC articles from the news API and returns it
+    in a form of json file formatted as the example:
     {
       'status': 'ok',
       'totalResults': 10,
@@ -78,11 +81,11 @@ def news_api():
           },
           'author': 'BBC News',
           'title': "Spotify artist pages hacked by Taylor Swift 'fan'",
-          'description': 'An apparent Taylor Swift fan defaced the artist pages for Lana Del Ray and Dua Lipa, among others.',
+          'description': 'An apparent Taylor Swift fan...',
           'url': 'http://www.bbc.co.uk/news/technology-55158317',
-          'urlToImage': 'https://ichef.bbci.co.uk/news/1024/branded_news/12F62/production/_115766677_dualipa_hacked.jpg',
+          'urlToImage': 'https://ichef.bbci.co.uk/.../_115766677_dualipa_hacked.jpg',
           'publishedAt': '2020-12-02T12:52:20.5708095Z',
-          'content': "Some of the world's most popular singers have had their Spotify pages hacked and defaced by an apparent Taylor Swift fan.\r\nOn Wednesday, artists including Lana Del Rey and Dua Lipa had their biograph… [+1578 chars]"
+          'content': "Some of the world's most popular singers have had their Spotify..."
         },
         {
           'source': {
@@ -91,25 +94,25 @@ def news_api():
           },
           'author': 'BBC News',
           'title': "Ethiopia and UN 'reach Tigray aid deal'",
-          'description': 'Food and medicines are said to be running out for millions of people in the conflict-torn region.',
+          'description': 'Food and medicines are said to be running...',
           'url': 'http://www.bbc.co.uk/news/world-africa-55158182',
-          'urlToImage': 'https://ichef.bbci.co.uk/news/1024/branded_news/13F5C/production/_115765718_mediaitem115765717.jpg',
+          'urlToImage': 'https://ichef.bbci.co.uk/.../_115765718_mediaitem115765717.jpg',
           'publishedAt': '2020-12-02T11:22:22.8376767Z',
-          'content': "image captionMany refugees have crossed over into Sudan to escape the conflict\r\nThe United Nations and Ethiopia have reached a deal to allow aid into the country's conflict-torn northern Tigray regio… [+802 chars]"
+          'content': "image captionMany refugees have crossed over..."
     }, ...}
     """
     api_key = config['API keys']['news']
     url = "https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey={}".format(api_key)
     news_data = requests.get(url).json()
     if news_data["status"] != "ok":
-        logger.error("Unwanted response '{}' from news API.".format(news_data["status"]))
+        logger.error("Unwanted response '%s' from news API.", news_data["status"])
     else:
         logger.info("Successful connection with news API.")
     return news_data
 
 
 def covid_api(city: str):
-    """A function fetching data from Covid-19 API
+    """Fetches data from Covid-19 API
     It returns a dictionary with countries in GB and City specified in config.json file
     as keys and data about covid as values.
     Data contains such information:
@@ -121,8 +124,7 @@ def covid_api(city: str):
     where 0 stands for the most recent data in days since data gained.
     example:
     england_covid = APIs_fetcher.covid_api()["England"]['data'][0]['cumCasesByPublishDate']
-    is the cumulative number of cases in England until yesterday
-
+    is the cumulative number of cases in England until yesterday.
     """
     # create a filter for each counry in the UK
     list_of_countries_filters = []
@@ -150,15 +152,18 @@ def covid_api(city: str):
     }
 
     apis = {}
-    for i in range(len(list_of_countries_filters)):
+    for i in enumerate(list_of_countries_filters):
         try:
-            country=Cov19API(filters=list_of_countries_filters[i], structure=cases_and_deaths).get_json()
+            country = Cov19API(filters=list_of_countries_filters[i],
+                               structure=cases_and_deaths).get_json()
         except:
             logger.error("Encountered problem while trying to retrieve data from covid api.")
         apis[countries[i]] = country
     try:
-        apis[city] = Cov19API(filters=city_filter, structure=cases_and_deaths).get_json()
+        apis[city] = Cov19API(filters=city_filter,
+                              structure=cases_and_deaths).get_json()
     except:
-        logger.error("Encountered problem while trying to retrieve data from covid api.")
+        logger.error("Encountered problem while trying to "
+                     "retrieve data from covid api.")
 
     return apis

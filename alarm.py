@@ -1,43 +1,43 @@
 """A module handling scheduling and Flask loading in two threads"""
-from flask import Flask, render_template, request
 from datetime import datetime, timedelta
 import time
 import sched
-import pyttsx3
-import json_handler
 import threading
 import logging
+import pyttsx3
+from flask import Flask, render_template, request
+import json_handler
 
 app = Flask(__name__)
 # scheduler is used as a global variable to enable access in multiple functions
-s = None
+SCHED = None
 # always restart after closing and opening the app
-time_last_refresh = datetime.now()
+TIME_LAST_REFRESH = datetime.now()
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='sys.log',
                     format='%(levelname)s %(name)s, %(asctime)s: %(message)s')
 
 
-def schedule_all_alarms():
-    """get all alarms from the alarms.json file and schedule them
+def schedule_all_alarms() -> None:
+    """gets all alarms from the alarms.json file and schedules them
     making sure none are scheduled for the past.
-    Run the scheduler."""
+    Runs the scheduler."""
     logger.info("Rescheduling alarms.")
 
-    global s
+    global SCHED
     # restart the scheduler
-    s = sched.scheduler(time.time, time.sleep)
+    SCHED = sched.scheduler(time.time, time.sleep)
     delete_alarms_in_the_past()
     alarms = json_handler.get_list_from_json("alarm")
-    for a in alarms:
-        delay = get_delay(a["date"], a["time"])
-        s.enter(delay, 1, json_handler.trigger_alarm, argument=(a,))
+    for alar in alarms:
+        delay = get_delay(alar["date"], alar["time"])
+        SCHED.enter(delay, 1, json_handler.trigger_alarm, argument=(alar,))
 
-    x = threading.Thread(target=run_sched)
-    x.start()
+    thread = threading.Thread(target=run_sched)
+    thread.start()
 
 
-def delete_alarms_in_the_past():
+def delete_alarms_in_the_past() -> None:
     """Finds alarms that are set in the past and deletes them from json file"""
     alarms = json_handler.get_list_from_json("alarm")
     for alarm in alarms:
@@ -46,7 +46,7 @@ def delete_alarms_in_the_past():
             json_handler.delete_from_json("alarm", alarm)
 
 
-def tts_request(announcement="Text to speech example announcement!"):
+def tts_request(announcement="Text to speech example announcement!") -> None:
     """Reads the message specified in parameter"""
     engine = pyttsx3.init()
     voices = engine.getProperty('voices')
@@ -57,22 +57,23 @@ def tts_request(announcement="Text to speech example announcement!"):
 
 def fill_out_the_form():
     """fills out the form with data from json files, refreshes the notifications
-    if they have not been refreshed for over an hour."""
-    global time_last_refresh
+    if they have not been refreshed for over an hour. Returns the filled out form"""
+    global TIME_LAST_REFRESH
     delete_alarms_in_the_past()
     # refresh the notifications every hour
-    if time_last_refresh + timedelta(hours=1) < datetime.now():
+    if TIME_LAST_REFRESH + timedelta(hours=1) < datetime.now():
         logger.info("Refreshing the news since the hour has passed.")
-        time_last_refresh = datetime.now()
+        TIME_LAST_REFRESH = datetime.now()
         json_handler.save_new_notifications()
     # fetch the data from json files
     notifications = json_handler.get_list_from_json("notification")
     alarms = json_handler.get_list_from_json("alarm")
-    return render_template('alarms.html', alarms=alarms, notifications=notifications, image="pic.png")
+    return render_template('alarms.html', alarms=alarms,
+                           notifications=notifications, image="pic.png")
 
 
-def get_delay(date: str, time_str: str):
-    """Find the difference in second between the given parameter and current time"""
+def get_delay(date: str, time_str: str) -> int:
+    """Returns the difference in second between the given parameter and current time"""
     try:
         now = datetime.now()
         future = datetime.strptime(date+time_str, "%Y-%m-%d%H:%M:%S")
@@ -80,7 +81,9 @@ def get_delay(date: str, time_str: str):
     except ValueError:
         logger.error("Wrong date formatting trying to be converted in get_delay function.")
 
-def delete_an_object():
+def delete_an_object() -> None:
+    """Finds an object to be deleted based on the current URL
+     and uses a method from a json_handler.py to delete it"""
     logger.info("User pressed x button to delete an alarm/notification.")
     delete_title = request.url.split("?")[1]
     # find out if we delete alarm or notification
@@ -90,19 +93,19 @@ def delete_an_object():
     elif delete_type == "alarm_item":
         delete_type = "alarm"
     else:
-        logger.warning("Unable to recognize what type of data wants to delete (wrong URL formatting).")
+        logger.warning("Unable to recognize what type of data user wants to delete.")
         # go to main page
         form()
     # get rid of non-alphanumeric chars and problematic chars
     delete_title = delete_title.replace("%3A", "")
     delete_title = delete_title.replace("%27", "")
-    delete_title_only_with_alphabet = ''.join([i for i in delete_title.split("=")[1] if i.isalpha()])
+    delete_title_modified = ''.join([i for i in delete_title.split("=")[1] if i.isalpha()])
     list_of_obj = json_handler.get_list_from_json(delete_type)
-    for o in list_of_obj:
-        o_title_only_with_alphabet = ''.join([i for i in o["title"] if i.isalpha()])
-        if o_title_only_with_alphabet == delete_title_only_with_alphabet:
+    for obj in list_of_obj:
+        obj_title_modified = ''.join([i for i in obj["title"] if i.isalpha()])
+        if obj_title_modified == delete_title_modified:
             logger.info("Successfully found an object to delete.")
-            json_handler.delete_from_json(delete_type, o)
+            json_handler.delete_from_json(delete_type, obj)
             break
 
 @app.route('/index')
@@ -115,12 +118,14 @@ def index():
     return fill_out_the_form()
 
 
-def run_sched():
-    s.run()
+def run_sched() -> None:
+    """Starts a scheduler."""
+    SCHED.run()
 
 
 @app.route("/")
 def form():
+    """Renders the html form for the homepage."""
     return fill_out_the_form()
 
 
